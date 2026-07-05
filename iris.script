@@ -1,4 +1,4 @@
-   zn "%SYS"
+    zn "%SYS"
     Do ##class(Security.Users).UnExpireUserPasswords("*")
 	;; setup SQLgateway to mssql 
     set gty=##class(%SQLConnection).%New()
