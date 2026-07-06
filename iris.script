@@ -1,16 +1,16 @@
 zn "%SYS"
 Do ##class(Security.Users).UnExpireUserPasswords("*")
-;; setup SQLgateway to mssql 
+;; setup SQLgateway to ORACLE 
 set gty=##class(%SQLConnection).%New()
-set gty.Name="ibmDB2"
-set gty.Usr="db2inst1"
-set gty.pwd="password"
-set gty.driver="com.ibm.db2.jcc.DB2Driver"
-set gty.classpath="/opt/irisbuild/jdbc/db2jcc4.jar"
-set gty.URL="jdbc:db2://db2:50000/sample"
+set gty.Name="ORACLE"
+set gty.Usr="SAMPLEDB"
+set gty.pwd="Welcome1"
+set gty.driver="oracle.jdbc.driver.OracleDriver"
+set gty.classpath="/opt/irisbuild/jdbc/ojdbc17.jar"
+set gty.URL="jdbc:oracle:thin:@oracle:1521"
 set gty.isJDBC=1
 set sc=gty.%Save()
 ZWRITE gty,sc	
 ;;
 zn "USER"
-halt
+ha
