@@ -3,11 +3,11 @@ services:
       image: gvenzl/oracle-xe:latest
       container_name: oracle21c
       ports:
-      - 1521:1521
+        - 1521:1521
       environment:
-      - ORACLE_PASSWORD=Welcome1
+        - ORACLE_PASSWORD=Welcome1
       volumes:
-      - ./init_scripts:/container-entrypoint-initdb.d
+        - ./init_scripts:/container-entrypoint-initdb.d
     
     iris:
       build:
