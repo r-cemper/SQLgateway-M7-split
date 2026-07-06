@@ -35,7 +35,7 @@ docker-compose up
         - host: container oracle 
         - database: SAMPLEDB 
         - port: 1521
-        - username: sys
+        - username: SAMPLEDB
         - password: Welcome1
 4.   **Connection to IRIS**: 
         - host: localhost 
@@ -55,7 +55,7 @@ All migration actions can be executed directly from SMP.
 1. Verify the gateway connection in    
    SMP> Administration> Configuration> Connectivity> SqlGateway_Configuration    
  ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-ORACLE-IRIS/master/docs/gty01.jpg) 
-   - To test Connection click **edit** for connection **ibmDB2**     
+   - To test Connection click **edit** for connection **ORACLE**     
    - verify  **Connection successful**      
    - Be patient at this point. Some DB containers take quite some time to talk to you.   
      wait a little bit, reload the page in browser and try the test again. 
