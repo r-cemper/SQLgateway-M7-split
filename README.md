@@ -35,6 +35,7 @@ docker-compose up
         - host: container oracle 
         - database: SAMPLEDB 
         - port: 1521
+        - SID: XE 
         - username: SAMPLEDB
         - password: Welcome1
 4.   **Connection to IRIS**: 
@@ -74,14 +75,18 @@ All migration actions can be executed directly from SMP.
      It might be clever to load tables in their logical order to reduce errors
      Also, loading definitions first and data later would improve success 
   
-4. Identifying new targets is possible, but may cause conflicts in cross-references   
+4. Identifying new targets is possible, but may cause conflicts in cross-references 
+   This is one key to success:   
+   Tables get listed alphabetically not by logical dependency or sequence. 
+   This could cause errors.  
+   I have reduced the number of tables and their size to make the demo tangible.
 
 5. Skipping special settings, we use defaults to start the task in background      
   ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-ORACLE-IRIS/master/docs/gty07.jpg) 
   
-6. Now check the results and see if everything was working without Errors
-  You might see errors if tables depend on content not yet migrated.   
-  And wait for completions until the status shows **Done** 
+6. Now check the results and see if everything was working without Errors  
+   You might see errors if tables depend on content not yet migrated.   
+   And wait for completions until the status shows **Done** 
   
 7. We terminate the Migration Wizard and return to normal table view 
    All tables are visible and show meaningful columns
@@ -90,5 +95,5 @@ All migration actions can be executed directly from SMP.
   
 9. A look into the related generated Class Definitions confirms the result and successful completion.
 
-  [Article on DC](https://community.intersystems.com/post/sqlgateway-migration-ORACLE-iris)    
+  [Article on DC](https://community.intersystems.com/post/sqlgateway-migration-oracle-iris)    
   [Data source description by Yuri Marx](https://community.intersystems.com/post/data-migration-tool-part-v-oracle-database-21c-iris)
