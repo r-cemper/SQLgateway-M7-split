@@ -1,5 +1,5 @@
 
-# SQLgateway-operating-Caché -IRIS #  
+# SQLgateway-operating-Caché-IRIS #  
 Sample example to show how to communicate between InterSystems Caché and InterSystems IRIS    
 **using SQLgateway** in contrast to other types of linking.        
 Migration is the most attractive functionality in SQLgatway and it is easy to visualize.    
