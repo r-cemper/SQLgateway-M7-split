@@ -1,22 +1,24 @@
 services:
-    oracle: #from https://geraldonit.com/2021/08/15/oracle-xe-docker-images/ and https://oralytics.com/2021/10/01/oracle-21c-xe-database-and-docker-setup/
-      image: gvenzl/oracle-xe:latest
-      container_name: oracle21c
-      ports:
-        - 1521:1521
-      environment:
-        - ORACLE_PASSWORD=Welcome1
-      volumes:
-        - ./init_scripts:/container-entrypoint-initdb.d
-    
     iris:
       build:
         context: .
         dockerfile: Dockerfile
       restart: always
       ports:
-        - 41773:1972
+        - 41772:1972
         - 42773:52773
       volumes:
         - ./:/home/irisowner/dev
         - ./jdbc:/opt/irisbuild/jdbc
+
+    cache:
+      build: 
+        context: ./cache
+        dockerfile: Dockerfile
+      restart: always
+      ports:
+        - 51972:1972
+        - 57772:57772
+      volumes:
+        - ./:/opt/cacheapp
+        

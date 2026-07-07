@@ -1,16 +1,14 @@
 zn "%SYS"
 Do ##class(Security.Users).UnExpireUserPasswords("*")
-;; setup SQLgateway to ORACLE 
+;; setup SQLgateway to Caché 
 set gty=##class(%SQLConnection).%New()
-set gty.Name="ORACLE"
-set gty.Usr="SAMPLEDB"
-set gty.pwd="Welcome1"
-set gty.driver="oracle.jdbc.driver.OracleDriver"
-set gty.classpath="/opt/irisbuild/jdbc/ojdbc8.jar"
-set gty.URL="jdbc:oracle:thin:@oracle21c:1521:XE"
+set gty.Name="cache"
+set gty.Usr="_SYSTEM"
+set gty.pwd="SYS"
+set gty.driver="com.intersys.jdbc.CacheDriver"
+set gty.classpath="/opt/irisbuild/jdbc/cache-jdbc-2.0.0.jar"
+set gty.URL="jdbc:Cache://cache:1972/SAMPLES"
 set gty.isJDBC=1
 set sc=gty.%Save()
 ZWRITE gty,sc	
 ;;
-zn "USER"
-halt
