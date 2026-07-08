@@ -43,7 +43,7 @@ docker-compose up
         - port: 1972
         - username: _SYSTEM
         - password: SYS
-        - SMP: http://localhost:57772/csp/sys/UtilHome.csp
+        - SMP: http://localhost:51772/csp/sys/UtilHome.csp
         
 4.   **Connection to IRIS**: 
         - host: localhost 
