@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26">
+<Routine name="ZSETUP" type="INT" languagemode="0"><![CDATA[
+ZSETUP ; for IRIS1
+	zn "%SYS"
+	;; setup SQLgateway to IRIS2 
+	set gty=##class(%SQLConnection).%New()
+	set gty.Name="IRIS2"
+	set gty.Usr="_SYSTEM"
+	set gty.pwd="SYS"
+	set gty.driver="com.intersystems.jdbc.IRISDriver"
+	set gty.classpath="/opt/irisbuild/jdbc/intersystems-jdbc-3.10.5.jar"
+	set gty.URL="jdbc:IRIS://iris2:1972/USER"
+	set gty.isJDBC=1
+	set sc=gty.%Save()
+	zn "USER"
+	do $system.OBJ.Delete("Sample.*")
+	quit
+]]></Routine>
+</Export>

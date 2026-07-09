@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2026.1 (Build 234U)" ts="2026-07-07 19:54:29">
+<Class name="Sample.Company">
+<Description><![CDATA[
+This sample persistent class represents a company.<br>]]></Description>
+<Super>%Persistent,%Populate,%XML.Adaptor</Super>
+<TimeChanged>66946,33027.105511</TimeChanged>
+<TimeCreated>59269,38836.352</TimeCreated>
+
+<Index name="NameIdx">
+<Description><![CDATA[
+Define an index for <property>Name</property>.]]></Description>
+<Type>index</Type>
+<Properties>Name</Properties>
+</Index>
+
+<Index name="TaxIDIdx">
+<Description><![CDATA[
+Define a unique index for <property>TaxID</property>.]]></Description>
+<Type>index</Type>
+<Properties>TaxID</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Name">
+<Description>
+The company's name.</Description>
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN" value="80"/>
+<Parameter name="POPSPEC" value="Company()"/>
+</Property>
+
+<Property name="Mission">
+<Description>
+The company's mission statement.</Description>
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="200"/>
+<Parameter name="POPSPEC" value="Mission()"/>
+</Property>
+
+<Property name="TaxID">
+<Description>
+The unique Tax ID number for the company.</Description>
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="Revenue">
+<Description>
+The last reported revenue for the company.</Description>
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Employees">
+<Description><![CDATA[
+The <class>Employee</class> objects associated with this <class>Company</class>.]]></Description>
+<Type>Employee</Type>
+<Cardinality>many</Cardinality>
+<Inverse>Company</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Method name="PrintPayroll">
+<Description><![CDATA[
+This method prints out the payroll for this company by iterating over 
+all the <class>Employee</class> objects related to it and printing 
+their names and salaries.<br>
+You can try this out from the <i>Cach&eacute;</i> command line by opening 
+an instance of <class>Company</class> object and invoking this method:
+<example>
+Set company = ##class(Sample.Company).%OpenId(1)
+
+Do company.PrintPayroll()
+</example>]]></Description>
+<Implementation><![CDATA[
+	Set total = 0
+	Set key = ""
+	
+	Write !, "Payroll for ", ..Name, ":"
+	
+	Do {
+		Set emp = ..Employees.GetNext(.key)
+		If (emp '= "") {
+			Set total = total + emp.Salary
+			Write !, ?5, emp.Name, ?40, $J($FN(emp.Salary,","),12)
+			Do ..Employees.%UnSwizzleAt(key)
+		}
+	} while (key '= "")
+	
+	Write !, "Total: ", ?40, $J($FN(total,","),12)
+	Quit
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^Sample.CompanyD</DataLocation>
+<DefaultData>CompanyDefaultData</DefaultData>
+<IdLocation>^Sample.CompanyD</IdLocation>
+<IndexLocation>^Sample.CompanyI</IndexLocation>
+<StreamLocation>^Sample.CompanyS</StreamLocation>
+<ExtentSize>20</ExtentSize>
+<Data name="CompanyDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Mission</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+<Value name="4">
+<Value>Revenue</Value>
+</Value>
+<Value name="5">
+<Value>TaxID</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.55</AverageFieldSize>
+</Property>
+<Property name="Mission">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>96.3</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>16.45</AverageFieldSize>
+</Property>
+<Property name="Revenue">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>8.9</AverageFieldSize>
+</Property>
+<Property name="TaxID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>4.9</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="NameIdx">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="TaxIDIdx">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

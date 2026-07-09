@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26">
+<Routine name="%ZSTART" type="INT" languagemode="0"><![CDATA[
+%ZSTART ;
+SYSTEM
+  if $d(^%ZINIT) quit
+  set ^%ZINIT=$ZDT($h,3) 	
+  do $system.OBJ.Import("/opt/irisbuild/demo/ZSETUP.xml","ck")
+  do ^ZSETUP
+  quit	
+]]></Routine>
+</Export>
