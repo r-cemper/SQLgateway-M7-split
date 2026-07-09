@@ -42,7 +42,7 @@ As I like to follow the progress of Compose, I use
 docker-compose up -d   && docker-compose logs -f
 ```
 This brings some movement to my screen.   
-Demo data are generated or IRIS2 imported.
+Demo data are generated or imported during compose.
 
 3.    **Connection to IRIS**: 
         - host: localhost 
@@ -56,7 +56,6 @@ Demo data are generated or IRIS2 imported.
    is installed during Docker build and all required   
    jdbcdriver included and activated
    
-   
 ## How to test ##
 SMP is available here 
      http://localhost:42773/csp/sys/UtilHome.csp    
@@ -65,8 +64,8 @@ All migration actions can be executed directly from SMP.
 1. Verify the gateway connection in    
    SMP> Administration> Configuration> Connectivity> SqlGateway_Configuration    
  ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-IRIS-IRIS/master/docs/gty01.jpg) 
-   - To test Connection click **edit** for connection **IRIS2**     
-   - verify  **Connection successful**      
+   - To test Connection click **edit** for connection 
+   - Test vonnection an d check **Connection successful**      
    - Be patient at this point. Sometimes DB containers take quite some time to talk to you.   
      Wait a little bit, reload the page in browser and try the test again. 
    
