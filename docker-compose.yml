@@ -1,3 +1,6 @@
+volumes:
+  db2_data:  
+
 services:
     iris:
       build:
@@ -13,7 +16,7 @@ services:
         - ./:/home/irisowner/dev
         - ./jdbc:/opt/irisbuild/jdbc
         - ./iris1:/opt/irisbuild/demo
-    
+##7    
     iris2: 
       build:
         context: .
@@ -27,3 +30,96 @@ services:
       volumes:
         - ./:/home/irisowner/dev
         - ./iris2:/opt/irisbuild/demo
+##6
+    cache:
+      build: 
+        context: ./cache
+        dockerfile: Dockerfile
+      container_name: cache
+      hostname: cache 
+      restart: always
+      ports:
+        - 11972:1972
+        - 17772:57772
+      volumes:
+        - ./:/opt/cacheapp
+##1
+    postgres:
+        image: postgres
+        container_name: postgres
+        hostname: postgres 
+        restart: always
+        environment: 
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+          - PGDATA=tmp
+        logging:
+          options:
+            max-size: 10m
+            max-file: "3"
+        ports:
+          - 5432:5432
+        volumes:
+          - ./postgres-data:/var/lib/postgresql/data
+          # copy the sql script to create tables
+          - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+          # copy the sql script to fill tables
+          - ./sql/fill_tables.sql:/docker-entrypoint-initdb.d/fill_tables.sql
+ ##2         
+    mysql:
+        image: mysql
+        container_name: mysql
+        hostname: mysql
+        restart: always
+        environment:
+          MYSQL_DATABASE: 'db'
+          # So you don't have to use root, but you can if you like
+          MYSQL_USER: 'user'
+          # You can use whatever password you like
+          MYSQL_PASSWORD: 'password'
+          # Password for root access
+          MYSQL_ROOT_PASSWORD: 'password'
+        ports:
+          - 3306:3306
+        volumes:
+          - ./my-db:/var/lib/mysql
+          # copy the sql script to create tables
+          - ./mysql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql   
+##4
+    mssql:
+        image: chriseaton/adventureworks:latest
+        hostname: mssql
+        container_name: mssql        
+        restart: always
+        environment:
+          MSSQL_SA_PASSWORD: 'MSSQLServer@2019'
+          ACCEPT_EULA: 'Y'
+        ports:
+          - '1433:1433'
+        volumes:
+          - ./mssql:/var/lib/mssql
+##3
+    db2:
+        image: ibmcom/db2:11.5.8.0
+        hostname: db2
+        container_name: db2
+        privileged: true
+        ports:
+          - 50000:50000
+        environment:
+          - DB2INST1_PASSWORD=password
+          - LICENSE=accept
+          - DBNAME=sample
+          - SAMPLEDB=true
+        volumes:
+          - db2_data:/database
+##5              
+    oracle: #from https://geraldonit.com/2021/08/15/oracle-xe-docker-images/ and https://oralytics.com/2021/10/01/oracle-21c-xe-database-and-docker-setup/
+      image: gvenzl/oracle-xe:latest
+      container_name: oracle21c
+      ports:
+        - 1521:1521
+      environment:
+        - ORACLE_PASSWORD=Welcome1
+      volumes:
+        - ./init_scripts:/container-entrypoint-initdb.d
