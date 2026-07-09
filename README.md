@@ -40,7 +40,7 @@ A sample of demo data is generated on IRIS2 on namespace USER
         - port: 1972
         - username: _SYSTEM
         - password: SYS
-        - SMP: http://localhost:51772/csp/sys/UtilHome.csp
+        - SMP: http://localhost:52773/csp/sys/UtilHome.csp
         
 4.   **Connection to IRIS**: 
         - host: localhost 
@@ -48,6 +48,7 @@ A sample of demo data is generated on IRIS2 on namespace USER
         - port: 41773 
         - username: _SYSTEM 
         - password: SYS
+        - SMP: http://localhost:42773/csp/sys/UtilHome.csp
         
 5. **SQLgateway**  
    is installed during Docker build and the required   
