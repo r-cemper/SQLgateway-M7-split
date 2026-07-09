@@ -37,7 +37,7 @@ docker-compose build
 ```
 docker-compose up
 ```
-Downloading some GB of test data takes some time. Be patient.
+Downloading some GB of test data takes some time. Be patient.  
 As I like to follow the progress of Compose, I use 
 ```
 docker-compose up -d   && docker-compose logs -f
@@ -64,7 +64,7 @@ SMP is available here
 All migration actions can be executed directly from SMP.   
 1. Verify the gateway connection in    
    SMP> Administration> Configuration> Connectivity> SqlGateway_Configuration    
- ![](https://raw.githubusercontent.com/r-cemper/Magnificent-7/master/docs/gty01.jpg) 
+ ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-Magnificent-7/master/docs/gty01.jpg) 
    - To test Connection click **edit** 
    - Test connection and check **Connection successful**      
    - Be patient at this point. Sometimes DB containers take quite some time to talk to you.   
@@ -91,14 +91,15 @@ All migration actions can be executed directly from SMP.
   
 6. Now check the results and see if everything was working without errors  
    You might see errors if tables depend on content not yet migrated.   
-   And wait for completions until the status shows **Done** 
-  https://github.com/r-cemper/SQLgateway-Magnificent-7/blob/main/docs/7upSuccess.jpg
-7. We terminate the Migration Wizard and return to the normal table view 
+   And wait for completions until the status shows **Done**    
+  ![](https://github.com/r-cemper/SQLgateway-Magnificent-7/blob/main/docs/7upSuccess.jpg)
+
+8. We terminate the Migration Wizard and return to the normal table view 
    All tables are visible and show meaningful columns and contents
-   ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-Magnificent-7/master/docs/7upSuccess.jpg)  
+   
 9. Selecting a table and clicking on **OpenTable** shows reasonable contents   
   
 10. A look into the related generated Class Definitions confirms the result and successful completion.
 
-  [Article on DC](https://community.intersystems.com/post/sqlgateway-migration-iris-iris) 
+  [Article on DC](https://community.intersystems.com/post/sqlgateway-magnificent-7) 
  
