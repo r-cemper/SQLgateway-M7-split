@@ -1,31 +1,28 @@
 
-# SQLgateway-operating-Caché-IRIS #  
-Sample example to show how to communicate between InterSystems Caché and     
-InterSystems IRIS **using SQLgateway** in contrast to other types of linking.        
+# SQLgateway-operating-IRIS-IRIS #  
+Sample example to show how to communicate between instances of IRIS     
+**using SQLgateway** in contrast to other types of linking.        
 Migration is the most attractive functionality in SQLgatway and it is easy to visualize.    
-But it also offers a broader range of non-permanent linking of databases.   
-e.g. centralized error tracking.  
+Migration doesn't mean a full DB copy but also just a few tables.    
+As copy of definitions are separated from data it might be just a data update.   
+But SQLgateway also offers a broad range of non-permanent linking of databases.   
+e.g. centralized error tracking.    
+Inspired by my previous packages, IRIS was only DB missing in the collection.    
+So this is a logical follower.  
 ### Warning ###
-This is just JDBC/Java and IRIS with ISOS and SQL 
-- no AI, no Python, no other magic
+This is just JDBC/Java and IRIS with ISOS and SQL   
+- no AI, no Python, no other magic  
  
 ## Credits ##
-Inspired by the previous packages provided by [YURI MARX PEREIRA GOMES](https://openexchange.intersystems.com/user/YURI%20MARX%20PEREIRA%20GOMES/QKGV1uPuZml09uNsC8bNKcRQj8)
-this is a logical follower.  
-And the [official documentation on SQLgateway](https://docs.intersystems.com/iris20261/csp/docbook/Doc.View.cls?KEY=BSQG_overview)
-uncovers more useful features.
-
+ [official documentation on SQLgateway](https://docs.intersystems.com/iris20261/csp/docbook/Doc.View.cls?KEY=BSQG_overview) uncovers more useful features.
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.    
-In order to allow networking with Caché you need an appropriate license.  
-Caché works by default with a single user and no networks.
-Add it and enable copy in cache/Dockerfile
 
 ## Installation 
 Clone/git pull the repo into any local directory
 ```
-git https://github.com/r-cemper/SQLgateway-migration-cache-IRIS.git
+git https://github.com/r-cemper/SQLgateway-migration-IRIS-IRIS.git
 ```
 1. Build
 ```
@@ -35,12 +32,11 @@ docker-compose build
 ```
 docker-compose up
 ```
-  - Wait for confirmation from your containers container:  **ready to accept connections**
-  - The first pull for DB2 may take quite some time for the upload
+A sample of demo data is generated on IRIS2 on namespace USER
 
-3.   **Connection to CACHÈ**: 
-        - host: container cache 
-        - database: SAMPLES 
+3.   **Connection to IRIS2**: 
+        - host: container iris2 
+        - database: USER 
         - port: 1972
         - username: _SYSTEM
         - password: SYS
@@ -64,34 +60,33 @@ SMP is available here
 All migration actions can be executed directly from SMP.   
 1. Verify the gateway connection in    
    SMP> Administration> Configuration> Connectivity> SqlGateway_Configuration    
- ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-cache-IRIS/master/docs/gty01.jpg) 
-   - To test Connection click **edit** for connection **CACHE**     
+ ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-IRIS-IRIS/master/docs/gty01.jpg) 
+   - To test Connection click **edit** for connection **IRIS2**     
    - verify  **Connection successful**      
-   - Be patient at this point. Some DB containers take quite some time to talk to you.   
-     wait a little bit, reload the page in browser and try the test again. 
+   - Be patient at this point. Sometimes DB containers take quite some time to talk to you.   
+     Wait a little bit, reload the page in browser and try the test again. 
    
 2. Identifying the source tables. In SMP > Change to Namespace USER   
   then step to SMP >Explorers >SQL >Wizards > Data Migration   
-  ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-cache-IRIS/master/docs/gty04.jpg)
+  ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-IRIS-IRIS/master/docs/gty04.jpg)
   
 3. Set required import parameters  
- 
-  -  Destination Namespace = USER  
+   -  Destination Namespace = USER  
   -  Type = TABLE   
-  -  Select a SQL Gateway connection: = CACHE  ; now the first connection is established 
+  -  Select a SQL Gateway connection: = IRIS2  ; now the first connection is established 
   -  and you select Schema = SAMPLES  
-  -  Tables to migrate:  The namespace has a lot of cross-referencing tables 
-     I suggest loading the Samples.* package tables first 
-  
+  -  Tables to migrate: the Samples.* package   
+     It's a modest set adopted from Caché  
+   
 4. Identifying new targets is possible, but may cause conflicts in cross-references 
    This is one key to success:   
    Tables get listed alphabetically not by logical dependency or sequence. 
    This could cause errors.  
 
 5. Skipping special settings, we use defaults to start the task in background      
-  ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-cache-IRIS/master/docs/gty07.jpg) 
+  ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-IRIS-IRIS/master/docs/gty07.jpg) 
   
-6. Now check the results and see if everything was working without Errors  
+6. Now check the results and see if everything was working without errors  
    You might see errors if tables depend on content not yet migrated.   
    And wait for completions until the status shows **Done** 
   
@@ -102,5 +97,5 @@ All migration actions can be executed directly from SMP.
   
 9. A look into the related generated Class Definitions confirms the result and successful completion.
 
-  [Article on DC](https://community.intersystems.com/post/sqlgateway-migration-cach%C3%A9-iris) 
+  [Article on DC](https://community.intersystems.com/post/sqlgateway-migration-iris-iris) 
  
