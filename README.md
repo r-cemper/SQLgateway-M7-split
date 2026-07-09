@@ -1,20 +1,24 @@
+# The Magnificent Seven #  
+After composing examples of using SQLgateway for DB_Migration to IRIS  
+I couldn't resist assembling all 7 around IRIS in a single package.   
+8 containers in 1 Docke-Compose felt like driving an 8-cylinder engine.   
+- sqlgateway-magnificent-7 > IRiS1
+- 1 oracle21c
+- 2 mysql
+- 3 postgres
+- 4 IBM db2 
+- 5 MSsql
+- 6 Caché 
+- 7 IRIS2   
 
-# SQLgateway-operating-IRIS-IRIS #  
-Sample example to show how to communicate between instances of IRIS     
-**using SQLgateway** in contrast to other types of linking.        
-Migration is the most attractive functionality in SQLgatway and it is easy to visualize.    
-Migration doesn't mean a full DB copy but also just a few tables.    
-As copy of definitions are separated from data it might be just a data update.   
-But SQLgateway also offers a broad range of non-permanent linking of databases.   
-e.g. centralized error tracking.    
-Inspired by my previous packages, IRIS was only DB missing in the collection.    
-So this is a logical follower.  
-### Warning ###
+#### Warning ####
 This is just JDBC/Java and IRIS with ISOS and SQL   
 - no AI, no Python, no other magic  
  
 ## Credits ##
- [official documentation on SQLgateway](https://docs.intersystems.com/iris20261/csp/docbook/Doc.View.cls?KEY=BSQG_overview) uncovers more useful features.
+Special thanks for the test data to [YURI MARX PEREIRA GOMES](https://openexchange.intersystems.com/user/YURI%20MARX%20PEREIRA%20GOMES/QKGV1uPuZml09uNsC8bNKcRQj8)    
+This was an excellent base to start off.   
+And the [official documentation on SQLgateway](https://docs.intersystems.com/iris20261/csp/docbook/Doc.View.cls?KEY=BSQG_overview) with more features.
 
 ## Prerequisites
 Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and [Docker desktop](https://www.docker.com/products/docker-desktop) installed.    
@@ -22,7 +26,7 @@ Make sure you have [git](https://git-scm.com/book/en/v2/Getting-Started-Installi
 ## Installation 
 Clone/git pull the repo into any local directory
 ```
-git https://github.com/r-cemper/SQLgateway-migration-IRIS-IRIS.git
+git https://github.com/r-cemper/SQLgateway-Magnificent-7.git
 ```
 1. Build
 ```
@@ -32,17 +36,15 @@ docker-compose build
 ```
 docker-compose up
 ```
-A sample of demo data is generated on IRIS2 on namespace USER
+Downloading some GB of test data takes some time. Be patient.
+As I like to follow the progress of Compose, I use 
+```
+docker-compose up -d   && docker-compose logs -f
+```
+This brings some movement to my screen.   
+Demo data are generated or IRIS2 imported.
 
-3.   **Connection to IRIS2**: 
-        - host: container iris2 
-        - database: USER 
-        - port: 1972
-        - username: _SYSTEM
-        - password: SYS
-        - SMP: http://localhost:52773/csp/sys/UtilHome.csp
-        
-4.   **Connection to IRIS**: 
+3.    **Connection to IRIS**: 
         - host: localhost 
         - namespace: user 
         - port: 41773 
@@ -50,9 +52,10 @@ A sample of demo data is generated on IRIS2 on namespace USER
         - password: SYS
         - SMP: http://localhost:42773/csp/sys/UtilHome.csp
         
-5. **SQLgateway**  
-   is installed during Docker build and the required   
-   jdbcdriver for Linux is included in this repo   
+4. **SQLgateway**  
+   is installed during Docker build and all required   
+   jdbcdriver included and activated
+   
    
 ## How to test ##
 SMP is available here 
