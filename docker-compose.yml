@@ -3,11 +3,10 @@ include:
   - ./cache/docker-compose.yml
   - ./ibmDB2/docker-compose.yml
   - ./iris2/docker-compose.yml 
-  - ./MSsql/docker-compose.yml
   - ./mysql/docker-compose.yml
   - ./ORACLE/docker-compose.yml
   - ./postgres/docker-compose.yml
-
+  - ./MSsql/docker-compose.yml
 
 
   
