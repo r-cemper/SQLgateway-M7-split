@@ -1,5 +1,0 @@
-zn "%SYS"
-Do ##class(Security.Users).UnExpireUserPasswords("*")
-ZWRITE $system.OBJ.Import("/opt/irisbuild/%ZSTART.xml","ck")
-zn "USER"
-halt
