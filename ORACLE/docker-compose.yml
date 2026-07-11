@@ -1,0 +1,17 @@
+networks:
+    sqlgateway:
+      external: true
+      name:  sqlgateway   
+ 
+services:
+    oracle: #from https://geraldonit.com/2021/08/15/oracle-xe-docker-images/ and https://oralytics.com/2021/10/01/oracle-21c-xe-database-and-docker-setup/
+      image: gvenzl/oracle-xe:latest
+      container_name: oracle21c
+      ports:
+        - 1521:1521
+      environment:
+        - ORACLE_PASSWORD=Welcome1
+      volumes:
+        - ./init_scripts:/container-entrypoint-initdb.d
+      networks:
+        - sqlgateway

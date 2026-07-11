@@ -1,0 +1,21 @@
+networks:
+    sqlgateway:
+      external: true
+      name:  sqlgateway   
+      
+services:
+    mssql:
+      image: chriseaton/adventureworks:latest
+      hostname: mssql
+      container_name: mssql        
+      restart: always
+      environment:
+        MSSQL_SA_PASSWORD: 'MSSQLServer@2019'
+        ACCEPT_EULA: 'Y'
+      ports:
+        - '1433:1433'
+      volumes:
+          - ./mssql:/var/lib/mssql
+      networks:
+        - sqlgateway
+
