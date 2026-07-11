@@ -5,7 +5,30 @@ was a big block showing
 available possibilities. Though it is not easy to handle and hard to trace.  
 So my challenge: **How to eat an Elephant?**  >> Cut it in pieces !! 
 
+My goal was to allow both: creating every container isolated but allow   
+also a 1 click build of the whole collection. So it is now possible to   
+fix problems related to an individual container without touching the others.  
 
+It turned out that this became an exercise Docker networking and scripting,   
+- Every Docker-Compose Up creates its own network. So simple starting as   
+  in previous examples, builds 8 networks isolated from each other.   
+  **SOLUTION:** Define a common network and attach the containers.   
+  Now TPP/JDBC finds the servers, and we see no port conflicts anymore
+- running 8 times *docker-compose up -d* for all containers is not so funny
+  SOLUTION: Docker Compose has an INCLUDE directive. 1 clis and all blows up.
+----
+    include:
+  - ./iris1/docker-compose.yml
+  - ./cache/docker-compose.yml
+  - ./ibmDB2/docker-compose.yml
+  - ./iris2/docker-compose.yml 
+  - ./MSsql/docker-compose.yml
+  - ./mysql/docker-compose.yml
+  - ./ORACLE/docker-compose.yml
+  - ./postgres/docker-compose.yml
+
+----
+- if you run a simple 
 After composing examples of using SQLgateway for DB_Migration to IRIS  
 I couldn't resist assembling all 7 around IRIS in a single package.   
 8 containers in 1 Docker-Compose felt like driving an 8-cylinder engine.   
