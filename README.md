@@ -1,4 +1,9 @@
 # The Magnificent Seven #  
+
+
+https://github.com/r-cemper/SQLgateway-Magnificent-7
+
+
 After composing examples of using SQLgateway for DB_Migration to IRIS  
 I couldn't resist assembling all 7 around IRIS in a single package.   
 8 containers in 1 Docker-Compose felt like driving an 8-cylinder engine.   
