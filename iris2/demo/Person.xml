@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for Windows (x86-64) 2026.1 (Build 234U)" ts="2026-07-07 19:54:04">
+<Class name="Sample.Person">
+<Description><![CDATA[
+This sample persistent class represents a person.
+<p>Maintenance note: This class is used by some of the bindings samples.]]></Description>
+<Super>%Persistent,%Populate,%XML.Adaptor,%JSON.Adaptor</Super>
+<TimeChanged>67590,80575.2886787</TimeChanged>
+<TimeCreated>59269,38836.623</TimeCreated>
+
+<Parameter name="EXTENTQUERYSPEC">
+<Default>Name,SSN,Home.City,Home.State</Default>
+</Parameter>
+
+<UDLText name="T">
+<Content><![CDATA[
+// define indices for this class
+
+]]></Content>
+</UDLText>
+
+<Index name="MyIndex">
+<Type>index</Type>
+<Properties>Name,DOB</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="SSNKey">
+<Description><![CDATA[
+Define a unique index for <property>SSN</property>.]]></Description>
+<Type>index</Type>
+<Properties>SSN</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="NameIDX">
+<Description><![CDATA[
+Define an index for <property>Name</property>.]]></Description>
+<Data>Name</Data>
+<Properties>Name</Properties>
+</Index>
+
+<Index name="ZipCode">
+<Description><![CDATA[
+Define an index for embedded object property <b>ZipCode</b>.]]></Description>
+<Type>bitmap</Type>
+<Properties>Home.Zip</Properties>
+</Index>
+
+<UDLText name="T">
+<Content><![CDATA[
+// define properties for this class
+
+]]></Content>
+</UDLText>
+
+<Property name="LIMIT">
+<Type>%Integer</Type>
+<SqlComputeCode>set {*}=1 </SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+</Property>
+
+<Property name="Name">
+<Description>
+Person's name.</Description>
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="POPSPEC" value="Name()"/>
+</Property>
+
+<Method name="%JSONExportToStream">
+<Description><![CDATA[
+Serialize a JSON enabled class as a JSON document and write it to a stream.<br>
+mappingName is the name of the mapping to use for the export.  The base mapping is represented by "" and is the default.]]></Description>
+<FormalSpec><![CDATA[&export:%Stream.Object,%mappingName:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	// Save current device
+	Set io=$io
+	
+	Try {
+		// Always output to %FileCharacterStream
+		If $get(export)="" {
+			Set export=##class(%FileCharacterStream).%New()
+			// JSON is always UTF-8
+			Set export.TranslateTable="UTF8"
+			Set filestream=1
+		} Else {
+			Set filestream = ($zobjclass(export)="%Library.FileCharacterStream")
+		}
+		If filestream {
+			Set stream=export
+		} Else {
+			Set stream=##class(%FileCharacterStream).%New()
+			Set stream.TranslateTable="UTF8"
+		}
+		
+		// Force stream's file to open
+		Set sc=stream.Write("")
+		
+		// Export JSON to the stream
+		If $$$ISOK(sc) {
+			Set file=stream.Filename ; get filename and make current device
+			Use file:(/NOXY)
+			Set sc=..%JSONExportInternal()
+			// Don't Close file to leave stream positioned
+			Use io
+		}
+		
+		// Need to ensdure that LineTerminator is correct for the platform
+		If $$$ISOK(sc) Set stream.LineTerminator=$select($$$isUNIX:$char(10),1:$char(13,10))
+
+		// If we created the stream and caller passed in stream, then copy it to the caller's stream
+		If 'filestream,$$$ISOK(sc) {	
+			Set sc=export.CopyFrom(stream)
+		}
+
+	} Catch ex {
+		Set sc=ex.AsStatus()
+	}
+   b
+	Quit sc
+]]></Implementation>
+</Method>
+
+<Method name="%JSONExportToString">
+<Description><![CDATA[
+Serialize a JSON enabled class as a JSON document and return it as a string.<br>
+mappingName is the name of the mapping to use for the export.  The base mapping is represented by "" and is the default.]]></Description>
+<FormalSpec><![CDATA[&%export:%String,%mappingName:%String=""]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Try {
+		Set sc=$$$OK
+		
+		// Do the export to current device now.
+		Set %export=""
+		Set sc=..%JSONExportToStringInternal()
+
+	} Catch ex {
+		If ex.Name="<MAXSTRING>" {
+			Set sc=$$$ERROR($$$JSONMaxString,$$$mappingNameDisplay(%mappingName))
+		} Else {
+			Set sc=ex.AsStatus()
+		}
+	}
+
+	Quit sc
+]]></Implementation>
+</Method>
+
+<Property name="SSN">
+<Description>
+Person's Social Security number. This is validated using pattern match.</Description>
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="PATTERN" value="3N1&quot;-&quot;2N1&quot;-&quot;4N"/>
+</Property>
+
+<Property name="DOB">
+<Description>
+Person's Date of Birth.</Description>
+<Type>%Date</Type>
+<Parameter name="POPSPEC" value="Date()"/>
+</Property>
+
+<Property name="Home">
+<Description>
+Person's home address. This uses an embedded object.</Description>
+<Type>Address</Type>
+</Property>
+
+<Property name="Office">
+<Description>
+Person's office address. This uses an embedded object.</Description>
+<Type>Address</Type>
+</Property>
+
+<Property name="Spouse">
+<Description>
+Person's spouse. This is a reference to another persistent object.</Description>
+<Type>Person</Type>
+</Property>
+
+<Property name="FavoriteColors">
+<Description>
+A collection of strings representing the person's favorite colors.</Description>
+<Type>%String</Type>
+<Collection>list</Collection>
+<Parameter name="JAVATYPE" value="java.util.List"/>
+<Parameter name="POPSPEC" value="ValueList(&quot;,Red,Orange,Yellow,Green,Blue,Purple,Black,White&quot;):2"/>
+</Property>
+
+<Property name="Age">
+<Description><![CDATA[
+Person's age.<br>
+This is a calculated field whose value is derived from <property>DOB</property>.]]></Description>
+<Type>%Integer</Type>
+<Calculated>1</Calculated>
+<SqlComputeCode> Set {Age}=##class(Sample.Person).CurrentAge({DOB})
+</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+<SqlComputeOnChange>DOB</SqlComputeOnChange>
+</Property>
+
+<Property name="RowVer">
+<Type>%Integer</Type>
+<SqlComputeCode> i $i({*},$g(%IncDec)) </SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+<SqlComputeOnChange>%%INSERT,%%UPDATE</SqlComputeOnChange>
+</Property>
+
+<Method name="IncDec">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>step:%Integer=0</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<SqlName>IncDec</SqlName>
+<SqlProc>1</SqlProc>
+<Implementation><![CDATA[	set %IncDec=step quit 1
+]]></Implementation>
+</Method>
+
+<Method name="CurrentAge">
+<Description><![CDATA[
+This class method calculates a current age given a date of birth <var>date</var>.]]></Description>
+<ClassMethod>1</ClassMethod>
+<CodeMode>expression</CodeMode>
+<FormalSpec>date:%Date=""</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[$Select(date="":"",1:($ZD($H,8)-$ZD(date,8)\10000))
+]]></Implementation>
+</Method>
+
+<Method name="PrintPerson">
+<Description><![CDATA[
+Prints the property <property>Name</property> to the console.]]></Description>
+<Implementation><![CDATA[
+	Write !, "Name: ", ..Name
+	Quit
+]]></Implementation>
+</Method>
+
+<Method name="Addition">
+<Description><![CDATA[
+A simple, sample method: add two numbers (<var>x</var> and <var>y</var>) 
+and return the result.]]></Description>
+<FormalSpec>x:%Integer=1,y:%Integer=1</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[	Quit x + y // comment
+]]></Implementation>
+</Method>
+
+<Method name="NinetyNine">
+<Description>
+A simple, sample expression method: returns the value 99.</Description>
+<CodeMode>expression</CodeMode>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[99
+]]></Implementation>
+</Method>
+
+<Method name="PrintPersons">
+<Description><![CDATA[
+Invoke the <method>PrintPerson</method> on all <class>Person</class> objects 
+within the database.]]></Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	// use the extent result set to find all person
+	Set extent = ##class(%ResultSet).%New("Sample.Person:Extent")
+	Do extent.Execute()
+	
+	While (extent.Next()) {
+		Set person = ..%OpenId(extent.GetData(1))
+		Do person.PrintPerson()
+	}
+	
+	Quit
+]]></Implementation>
+</Method>
+
+<Method name="PrintPersonsSQL">
+<Description>
+Prints out data on all persons within the database using SQL to 
+iterate over all the person data.</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	// use dynamic SQL result set to find person data
+	Set query = ##class(%ResultSet).%New("%DynamicQuery:SQL")
+	Do query.Prepare("SELECT ID, Name, SSN FROM Sample.Person ORDER BY Name")
+	Do query.Execute()
+	
+	While (query.Next()) {
+		Write !,"Name: ", query.Get("Name"), ?30, query.Get("SSN")
+	}
+	
+	Quit
+]]></Implementation>
+</Method>
+
+<Method name="StoredProcTest">
+<Description><![CDATA[
+This is a sample of how to define an SQL stored procedure using a 
+class method. This method can be called as a stored procedure via 
+ODBC or JDBC.<br>
+In this case this method returns the concatenation of a string value.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[name:%String,&response:%String]]></FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<SqlName>Stored_Procedure_Test</SqlName>
+<SqlProc>1</SqlProc>
+<Implementation><![CDATA[
+	// Set response to the concatenation of name.
+	Set response = name _ "||" _ name
+	QUIT 29
+]]></Implementation>
+</Method>
+
+<Method name="UpdateProcTest">
+<Description><![CDATA[
+This is a sample of how to define an SQL stored procedure using a 
+class method. This method can be called as a stored procedure via 
+ODBC or JDBC.<br>
+This method performs an SQL update operation on the database 
+using embedded SQL. The update modifies the embedded properties 
+<var>Home.City</var> and <var>Home.State</var> for all rows whose 
+<var>Home.Zip</var> is equal to <var>zip</var>.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>zip:%String,city:%String,state:%String</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<SqlProc>1</SqlProc>
+<Implementation><![CDATA[
+	New %ROWCOUNT,%ROWID
+	
+	&sql(UPDATE Sample.Person 
+	SET Home_City = :city, Home_State = :state 
+	WHERE Home_Zip = :zip)
+	
+	// Return context information to client via %SQLProcContext object
+	If ($g(%sqlcontext)'=$$$NULLOREF) { 
+		Set %sqlcontext.SQLCode = SQLCODE
+		Set %sqlcontext.RowCount = %ROWCOUNT
+	}
+	QUIT 1
+]]></Implementation>
+</Method>
+
+<Query name="ByName">
+<Description><![CDATA[
+A sample class query that defines a result set that returns Person data 
+ordered by <property>Name</property>.<br>
+This query can be used within another Cach&eacute; method (using the
+<class>%ResultSet</class> class), from Java, or from ActiveX.<br>
+This query is also accessible from ODBC and/or JDBC as the SQL stored procedure 
+<b>SP_Sample_By_Name</b>.]]></Description>
+<Type>%SQLQuery</Type>
+<FormalSpec>name:%String=""</FormalSpec>
+<SqlName>SP_Sample_By_Name</SqlName>
+<SqlProc>1</SqlProc>
+<SqlQuery>SELECT ID, Name, DOB, SSN
+FROM Sample.Person
+WHERE (Name %STARTSWITH :name)
+ORDER BY Name</SqlQuery>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="SELECTMODE" value="RUNTIME"/>
+</Query>
+
+<Method name="Dupl">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val:%String,id:%String</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<SqlName>DUPL</SqlName>
+<SqlProc>1</SqlProc>
+<Implementation><![CDATA[
+ set used=$d(^||dupl(val))
+ set ^||dupl(val,id)=$i(^||dupl(val))  
+ quit used
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^Sample.PersonD</DataLocation>
+<DefaultData>PersonDefaultData</DefaultData>
+<IdLocation>^Sample.PersonD</IdLocation>
+<IndexLocation>^Sample.PersonI</IndexLocation>
+<StreamLocation>^Sample.PersonS</StreamLocation>
+<Data name="PersonDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>LIMIT</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+<Value name="4">
+<Value>SSN</Value>
+</Value>
+<Value name="5">
+<Value>DOB</Value>
+</Value>
+<Value name="6">
+<Value>Home</Value>
+</Value>
+<Value name="7">
+<Value>Office</Value>
+</Value>
+<Value name="8">
+<Value>Spouse</Value>
+</Value>
+<Value name="9">
+<Value>FavoriteColors</Value>
+</Value>
+<Value name="10">
+<Value>RowVer</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

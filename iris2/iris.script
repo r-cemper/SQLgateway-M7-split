@@ -1,0 +1,13 @@
+zn "%SYS"
+Do ##class(Security.Users).UnExpireUserPasswords("*")
+zn "USER"
+do $system.OBJ.Delete("Samples.*")
+do $system.OBJ.Import("/opt/irisbuild/demo/Address.xml","ck")
+do $system.OBJ.Import("/opt/irisbuild/demo/Person.xml","ck")
+do $system.OBJ.Import("/opt/irisbuild/demo/Employee.xml","ck")
+do $system.OBJ.Import("/opt/irisbuild/demo/Company.xml","ck")
+do $system.OBJ.Import("/opt/irisbuild/demo/Employee.xml","ck")
+write ##class(Sample.Person).Populate(40)
+write ##class(Sample.Company).Populate(7)
+write ##class(Sample.Employee).Populate(32)
+halt
