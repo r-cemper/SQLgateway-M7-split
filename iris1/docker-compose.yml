@@ -1,0 +1,23 @@
+networks:
+    sqlgateway:
+      external: true
+      name:  sqlgateway   
+      
+services:
+    iris1:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      restart: always
+      container_name: iris1
+      hostname: iris1
+      ports:
+        - 41773:1972
+        - 42773:52773
+      volumes:
+         - ./:/home/irisowner/dev
+         - ./jdbc:/opt/irisbuild/jdbc
+      networks:
+         - sqlgateway
+         
+     

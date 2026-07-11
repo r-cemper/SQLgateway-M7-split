@@ -1,0 +1,90 @@
+zn "%SYS"
+Do ##class(Security.Users).UnExpireUserPasswords("*")
+;; 1 setup SQLgateway to postgressql
+set gty1=##class(%SQLConnection).%New()
+set gty1.Name="postgres"
+set gty1.URL="jdbc:postgresql://postgres:5432/"
+set gty1.Usr="postgres"
+set gty1.pwd="postgres"
+set gty1.classpath="/opt/irisbuild/jdbc/postgresql-42.3.1.jar"
+set gty1.driver="org.postgresql.Driver"
+set gty1.isJDBC=1
+set sc1=gty1.%Save()
+zwrite gty1,sc1
+
+;; 2 setup SQLgateway to mysql 
+set gty2=##class(%SQLConnection).%New()
+set gty2.Name="mysql"
+set gty2.driver="com.mysql.cj.jdbc.Driver"
+set gty2.Usr="user"
+set gty2.pwd="password"
+set gty2.URL="jdbc:mysql://mysql:3306/db"
+set gty2.classpath="/opt/irisbuild/jdbc/mysql-connector-j-9.7.0.jar"
+set gty2.isJDBC=1
+set sc2=gty2.%Save()
+zwrite gty2,sc2
+
+;; 3 setup SQLgateway to ibmDB2 
+set gty3=##class(%SQLConnection).%New()
+set gty3.Name="ibmDB2"
+set gty3.Usr="db2inst1"
+set gty3.pwd="password"
+set gty3.driver="com.ibm.db2.jcc.DB2Driver"
+set gty3.classpath="/opt/irisbuild/jdbc/db2jcc4.jar"
+set gty3.URL="jdbc:db2://db2:50000/sample"
+set gty3.isJDBC=1
+set sc3=gty3.%Save()
+zwrite gty3,sc3
+
+;; 4 setup SQLgateway to MSsql 
+set gty4=##class(%SQLConnection).%New()
+set gty4.Name="mssql"
+set gty4.Usr="SA"
+set gty4.pwd="MSSQLServer@2019"
+set gty4.driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+set gty4.URL="jdbc:sqlserver://mssql:1433;encrypt=false;databaseName=AdventureWorks" 
+set gty4.classpath="/opt/irisbuild/jdbc/mssql-jdbc-13.4.0.jre11.jar"
+set gty4.isJDBC=1
+set sc4=gty4.%Save()
+zwrite gty4,sc4
+
+;; 5  setup SQLgateway to ORACLE 
+set gty5=##class(%SQLConnection).%New()
+set gty5.Name="ORACLE"
+set gty5.Usr="SAMPLEDB"
+set gty5.pwd="Welcome1"
+set gty5.driver="oracle.jdbc.driver.OracleDriver"
+set gty5.classpath="/opt/irisbuild/jdbc/ojdbc8.jar"
+set gty5.URL="jdbc:oracle:thin:@oracle21c:1521:XE"
+set gty5.isJDBC=1
+set sc5=gty5.%Save()
+zwrite gty5,sc5
+
+;; 6 setup SQLgateway to Caché 
+set gty6=##class(%SQLConnection).%New()
+set gty6.Name="cache"
+set gty6.Usr="_SYSTEM"
+set gty6.pwd="SYS"
+set gty6.driver="com.intersys.jdbc.CacheDriver"
+set gty6.classpath="/opt/irisbuild/jdbc/cache-jdbc-2.0.0.jar"
+set gty6.URL="jdbc:Cache://cache:1972/SAMPLES"
+set gty6.isJDBC=1
+set sc6=gty6.%Save()
+zwrite gty6,sc6
+
+;; 7 setup SQLgateway to IRIS2 
+set gty7=##class(%SQLConnection).%New()
+set gty7.Name="IRIS2"
+set gty7.Usr="_SYSTEM"
+set gty7.pwd="SYS"
+set gty7.driver="com.intersystems.jdbc.IRISDriver"
+set gty7.classpath="/opt/irisbuild/jdbc/intersystems-jdbc-3.10.5.jar"
+set gty7.URL="jdbc:IRIS://iris2:1972/USER"
+set gty7.isJDBC=1
+set sc7=gty7.%Save()
+zwrite gty7,sc7
+;;
+
+zn "USER"
+do $system.OBJ.Delete("Samples.*")
+halt
