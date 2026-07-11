@@ -16,23 +16,20 @@ It turned out that this became an exercise Docker networking and scripting,
   Now TPP/JDBC finds the servers, and we see no port conflicts anymore
 - running 8 times *docker-compose up -d* for all containers is not so funny
   SOLUTION: Docker Compose has an INCLUDE directive. 1 clis and all blows up.
-----
-    include:
-  - ./iris1/docker-compose.yml
-  - ./cache/docker-compose.yml
-  - ./ibmDB2/docker-compose.yml
-  - ./iris2/docker-compose.yml 
-  - ./MSsql/docker-compose.yml
-  - ./mysql/docker-compose.yml
-  - ./ORACLE/docker-compose.yml
-  - ./postgres/docker-compose.yml
+```
+include:   
+  \- ./iris1/docker-compose.yml   
+  \- ./cache/docker-compose.yml    
+  \- ./ibmDB2/docker-compose.yml   
+  \- ./iris2/docker-compose.yml    
+  \- ./MSsql/docker-compose.yml   
+  \- ./mysql/docker-compose.yml   
+  \- ./ORACLE/docker-compose.yml   
+  \- ./postgres/docker-compose.yml
+```
 
-----
 - if you run a simple 
-After composing examples of using SQLgateway for DB_Migration to IRIS  
-I couldn't resist assembling all 7 around IRIS in a single package.   
-8 containers in 1 Docker-Compose felt like driving an 8-cylinder engine.   
-- sqlgateway-magnificent-7 > IRiS1
+
 - 1 oracle21c
 - 2 mysql
 - 3 postgres
