@@ -135,5 +135,6 @@ All migration actions can be executed directly from SMP.
   
 10. A look into the related generated Class Definitions confirms the result and successful completion.
 
-  [Article on DC](https://community.intersystems.com/post/sqlgateway-magnificent-7) 
+  [Article on DC](https://community.intersystems.com/post/sqlgateway-m7-split) 
+  https://community.intersystems.com/post/sqlgateway-m7-split
  
