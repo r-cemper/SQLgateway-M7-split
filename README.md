@@ -9,7 +9,7 @@ My goal was to allow both: creating every container isolated but allow
 also a 1 click build of the whole collection. So it is now possible to   
 fix problems related to an individual container without touching the others.  
 
-It turned out that this became an exercise Docker networking and scripting,   
+It turned out that this became an exercise in Docker networking and scripting,   
 - Every Docker-Compose Up creates its own network. So simple starting as   
   in previous examples, builds 8 networks isolated from each other.   
   **SOLUTION:** Define a common network and attach the containers.   
