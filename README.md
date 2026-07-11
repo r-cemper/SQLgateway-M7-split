@@ -15,7 +15,7 @@ It turned out that this became an exercise in Docker networking and scripting,
   **SOLUTION:** Define a common network and attach the containers.   
   Now TCP/JDBC finds the servers, and we see no port conflicts anymore
 - running 8 times *docker-compose up -d* for all containers is not so funny
-  SOLUTION: Docker Compose has an INCLUDE directive. 1 clis and all blows up.
+  SOLUTION: Docker Compose has an INCLUDE directive. 1 click and all blows up.
 ```
 include:   
   \- ./iris1/docker-compose.yml   
@@ -57,7 +57,7 @@ docker-compose build
 ```
 docker-compose up -d   && docker-compose logs -f
 ```
-This brings some movement to my screen and is less boring.  
+This adds some movement to my screen and makes it less boring.  
 You get a real Docker Container creation show.  
 Downloading some GB of test data takes some time. Be patient.   
 Especially MSsql is a really lazy jerk that I would fire if    
@@ -93,7 +93,11 @@ All migration actions can be executed directly from SMP.
      If the problem persists Start/Stop the affected Container helps sometimes. 
      A missing Cache.Key requires rebuilding the Cache image or manually   
      adding the license on the SPM  (port 57772) 
-   
+
+     **Know limit:** For some unidentified reason MSsql container is not reachable.   
+     After the pulk start. Stop + manual start resolves the issue.
+     Personal interpretation. MSsql refuses competition.
+         
 2. Identifying the source tables. In SMP > Change to Namespace USER   
   then step to SMP >Explorers >SQL >Wizards > Data Migration   
   ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-M7-split/master/docs/gty04.jpg)
