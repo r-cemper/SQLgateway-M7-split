@@ -88,8 +88,8 @@ All migration actions can be executed directly from SMP.
    - Test connection and check **Connection successful**      
    - Be patient at this point. Sometimes DB containers (MSsql) take quite   
      some time to talk to you. Wait a little bit, reload the page in browser
-     and try the test again.
-     **Hint:** 
+     and try the test again.    
+     **Hint:**    
      If the problem persists Start/Stop the affected Container helps sometimes. 
      A missing Cache.Key requires rebuilding the Cache image or manually   
      adding the license on the SPM  (port 57772) 
@@ -105,15 +105,15 @@ All migration actions can be executed directly from SMP.
   -  and next select a Schema from source
   -  Tables to migrate: as offered  
     
-4. applying a new schema is possible, but may cause conflicts 
-   This is one key to success:   
-   Tables get listed alphabetically not by logical dependency or sequence. 
+4. Applying a new schema is possible, but may cause conflicts    
+   This is one key to success:    
+   Tables get listed alphabetically not by logical dependency or sequence.
    ALso this could cause errors.  
 
-5. Skipping special settings, we use defaults to start the task in background      
+6. Skipping special settings, we use defaults to start the task in background      
   ![](https://raw.githubusercontent.com/r-cemper/SQLgateway-migration-M7-split/master/docs/gty07.jpg) 
   
-6. Now check the results and see if everything was working without errors  
+7. Now check the results and see if everything was working without errors  
    You might see errors if tables depend on content not yet migrated.   
    And wait for completions until the status shows **Done**    
   ![](https://github.com/r-cemper/SQLgateway-Magnificent-7/blob/main/docs/7upSuccess.jpg)
