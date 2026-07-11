@@ -1,7 +1,9 @@
-# The Magnificent Seven #  
+# The Magnificent Seven > splitted #  
 
-
-https://github.com/r-cemper/SQLgateway-Magnificent-7
+My previous package on [SQLgateway Migrations](https://github.com/r-cemper/SQLgateway-Magnificent-7) 
+was a big block showing   
+available possibilities. Though it is not easy to handle and hard to trace.  
+So my challenge: **How to eat an Elephant?**  >> Cut it in pieces !! 
 
 
 After composing examples of using SQLgateway for DB_Migration to IRIS  
