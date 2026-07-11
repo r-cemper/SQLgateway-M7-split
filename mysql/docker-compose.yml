@@ -4,18 +4,25 @@ networks:
       name:  sqlgateway   
       
 services:
-    mssql:
-      image: chriseaton/adventureworks:latest
-      hostname: mssql
-      container_name: mssql        
+    mysql:
+      image: mysql
+      container_name: mysql
+      hostname: mysql
       restart: always
       environment:
-        MSSQL_SA_PASSWORD: 'MSSQLServer@2019'
-        ACCEPT_EULA: 'Y'
+        MYSQL_DATABASE: 'db'
+        # you don't have to use root, but you can if you like
+        MYSQL_USER: 'user'
+        # You can use whatever password you like
+        MYSQL_PASSWORD: 'password'
+        # Password for root access
+        MYSQL_ROOT_PASSWORD: 'password'
       ports:
-        - '1433:1433'
+        - 3306:3306
       volumes:
-          - ./mssql:/var/lib/mssql
+        - ./my-db:/var/lib/mysql
+        # copy the sql script to create tables
+        - ./mysql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql   
       networks:
         - sqlgateway
-
+  
