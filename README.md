@@ -18,14 +18,14 @@ It turned out that this became an exercise in Docker networking and scripting,
   SOLUTION: Docker Compose has an INCLUDE directive. 1 click and all blows up.
 ```
 include:   
-  \- ./iris1/docker-compose.yml   
-  \- ./cache/docker-compose.yml    
-  \- ./ibmDB2/docker-compose.yml   
-  \- ./iris2/docker-compose.yml    
-  \- ./MSsql/docker-compose.yml   
-  \- ./mysql/docker-compose.yml   
-  \- ./ORACLE/docker-compose.yml   
-  \- ./postgres/docker-compose.yml
+  - ./iris1/docker-compose.yml   
+  - ./cache/docker-compose.yml    
+  - ./ibmDB2/docker-compose.yml   
+  - ./iris2/docker-compose.yml    
+  - ./MSsql/docker-compose.yml   
+  ## - ./mysql/docker-compose.yml   
+  - ./ORACLE/docker-compose.yml   
+  - ./postgres/docker-compose.yml
 ```
 Now you can create all containers from top or step into   
 the subdirectories for an individual Startup. It's a feature  
@@ -97,9 +97,9 @@ All migration actions can be executed directly from SMP.
      A missing Cache.Key requires rebuilding the Cache image or manually   
      adding the license on the SPM  (port 57772) 
 
-     **Know limit:** For some unidentified reason MSsql container is not reachable.   
-     After the pulk start. Stop + manual start resolves the issue.
-     Personal interpretation. MSsql refuses competition.
+     **Know limit:** For some reason MSsql container is not able to complete its    
+     init inside the compose. Might be related to available resources. So it 
+     has to be built separately. My interpretation. MSsql refuses competition.
          
 2. Identifying the source tables. In SMP > Change to Namespace USER   
   then step to SMP >Explorers >SQL >Wizards > Data Migration   
