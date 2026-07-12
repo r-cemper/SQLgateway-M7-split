@@ -6,8 +6,8 @@ include:
   - ./mysql/docker-compose.yml
   - ./ORACLE/docker-compose.yml
   - ./postgres/docker-compose.yml
-  - ./MSsql/docker-compose.yml
-
+#  - ./MSsql/docker-compose.yml
+# MSsql example never completes init
 
   
   
