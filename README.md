@@ -57,10 +57,10 @@ docker-compose build
 ```
 docker-compose up -d   && docker-compose logs -f
 ```
-This adds some movement to my screen and makes it less boring.  
-You get a real Docker Container creation show.  
-Downloading some GB of test data takes some time. Be patient.   
-Demo data are always generated or imported during compose. 
+   This adds some movement to my screen and makes it less boring.  
+   You get a real Docker Container creation show.  
+   Downloading some GB of test data takes some time. Be patient.   
+   Demo data are always generated or imported during compose. 
 
 3. Next start MSsql container to avoid resource conflicts in   
    compose. MSsql is a really lazy jerk that I would fire if    
