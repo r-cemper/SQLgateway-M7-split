@@ -53,22 +53,22 @@ docker network create sqlgateway
 ```
 docker-compose build
 ```
-2. Start MSsql container first to avoid resource conflicts in   
-   compose. MSsql is a really lazy jerk that I would fire if    
-   it were my employee, and look for an improving migration. :-))
-```
-docker compose -f .\MSsql\docker-compose.yml up 
-```   
-   As I like to follow the progress of Compose, I use   
+2. As I like to follow the progress of Compose, I use   
 ```
 docker-compose up -d   && docker-compose logs -f
 ```
 This adds some movement to my screen and makes it less boring.  
 You get a real Docker Container creation show.  
 Downloading some GB of test data takes some time. Be patient.   
-Demo data are always generated or imported during compose.  
+Demo data are always generated or imported during compose. 
 
-3.    **Connection to IRIS**: 
+3. Next start MSsql container to avoid resource conflicts in   
+   compose. MSsql is a really lazy jerk that I would fire if    
+   it were my employee, and look for an improving migration. :-))
+```
+docker compose -f .\MSsql\docker-compose.yml up 
+```   
+4. **Connection to IRIS**: 
         - host: localhost 
         - namespace: user 
         - port: 41773 
@@ -76,7 +76,7 @@ Demo data are always generated or imported during compose.
         - password: SYS
         - SMP: http://localhost:42773/csp/sys/UtilHome.csp
         
-4. **SQLgateway**  
+5. **SQLgateway**  
    is ready for all 7 containers
    
 ## How to test ##
